@@ -31,7 +31,13 @@ namespace QLNHASACH
 
         private void button1_Click(object sender, EventArgs e)
         {
-          cn.Open();
+            if (txttencl.Text == "")
+            {
+                MessageBox.Show("Tên Chủng Loại không được để trống ! ", "Xác Nhận", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                cn.Open();
 
             try
             {
@@ -49,6 +55,9 @@ namespace QLNHASACH
                 MessageBox.Show(ex + "");
                 //throw;
             }
+ 
+            }
+          
         }
 
         private void Form2_Load(object sender, EventArgs e)

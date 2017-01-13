@@ -34,8 +34,13 @@ namespace QLNHASACH
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cn.Open();
-
+            if (txttennxb.Text == "")
+            {
+                MessageBox.Show("Tên Nhà Xuát Bản không được để trống ", "Xác Nhận", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                cn.Open();
             try
             {
                 string sqladd = "insert into NXB(TENNXB,DIACHI,GIOITHIEU) VALUES (N'" + txttennxb.Text + "',N'"+ txtdc.Text + "',N'"+ txtmota.Text  + "')";
@@ -43,14 +48,12 @@ namespace QLNHASACH
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Thêm Chủng Loại Thành Công ! ");
-
-
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex + "");
                 //throw;
+            }
             }
         }
     }

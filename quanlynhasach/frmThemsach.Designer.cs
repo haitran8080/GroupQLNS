@@ -74,6 +74,7 @@
             this.cbbchungloai.Name = "cbbchungloai";
             this.cbbchungloai.Size = new System.Drawing.Size(152, 21);
             this.cbbchungloai.TabIndex = 22;
+           // this.cbbchungloai.SelectedIndexChanged += new System.EventHandler(this.cbbchungloai_SelectedIndexChanged);
             // 
             // txtmota
             // 

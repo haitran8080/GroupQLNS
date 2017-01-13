@@ -49,14 +49,14 @@ namespace QLNHASACH
             dataGridView1.Columns[8].HeaderText = "Số Lượng";
             dataGridView1.Columns[7].HeaderText = "Mô Tả";
 
-            string sql1 = "SELECT TENCHUNGLOAI,MACHUNGLOAI FROM CHUNGLOAI WHERE MACHUNGLOAI IN (SELECT MACHUNGLOAI FROM SACH)";
+            string sql1 = "SELECT TENCHUNGLOAI,MACHUNGLOAI FROM CHUNGLOAI";
             chungloai = getvalue(sql1).Tables[0];
             cbbchungloai.DataSource = chungloai;
             cbbchungloai.DisplayMember = "TENCHUNGLOAI";
-            cbbchungloai.ValueMember = "MACHUNGLOAI".ToString();
+            cbbchungloai.ValueMember = "MACHUNGLOAI";
 
 
-            string sql2 = "SELECT * FROM LOAISACH";
+            string sql2 = "SELECT * FROM LOAISACH "; //WHERE MALOAI=N'"+ cbbchungloai.SelectedValue.ToString() +"'";
             loai = getvalue(sql2).Tables[0];
             cbbloai.DataSource = loai;
             cbbloai.DisplayMember = "TENLOAI";
@@ -109,32 +109,42 @@ namespace QLNHASACH
         }
         private void btinsert_Click(object sender, EventArgs e)
         {
+            if (txttensach.Text == "" || txtgia.Text == "" || txtsl.Text == "")
+            {
+                MessageBox.Show("Xin vui lòng nhập đầy đủ Tên, Giá và Số Lượng Sách ! ","Xác Nhận",MessageBoxButtons.RetryCancel,MessageBoxIcon.Warning);
+            }
+            else
+            {
             connect();
             try
-            {
-            //string chuoi = "INSERT INTO SACH Values (N'" + txttensach.Text + "',N'" + txtgia.Text + "',N'" + cbbchungloai.Text + "',N'" + cbbloai.Text +"',N'"+ txttacgia.Text +"',N'"+ cbbnxb.Text +"',N'"+ txtmota.Text +"',N'"+ txtsl.Text + "' )";
+                {
+                //string chuoi = "INSERT INTO SACH Values (N'" + txttensach.Text + "',N'" + txtgia.Text + "',N'" + cbbchungloai.Text + "',N'" + cbbloai.Text +"',N'"+ txttacgia.Text +"',N'"+ cbbnxb.Text +"',N'"+ txtmota.Text +"',N'"+ txtsl.Text + "' )";
 
-                string sq = "INSERT INTO [SACH]([TENSACH],[DONGIA],[MACHUNGLOAI],[MALOAI],[TACGIA],[MANXB],[MOTA],[SL]) VALUES(N'" + txttensach.Text + "',N'" + txtgia.Text + "',N'" + cbbchungloai.SelectedValue.ToString() + "',N'" + cbbloai.SelectedValue.ToString() + "',N'" + txttacgia.Text + "',N'" + cbbnxb.SelectedValue.ToString() + "',N'" + txtmota.Text + "',N'" + txtsl.Text + "')";
+                    string sq = "INSERT INTO [SACH]([TENSACH],[DONGIA],[MACHUNGLOAI],[MALOAI],[TACGIA],[MANXB],[MOTA],[SL]) VALUES(N'" + txttensach.Text + "',N'" + txtgia.Text + "',N'" + cbbchungloai.SelectedValue.ToString() + "',N'" + cbbloai.SelectedValue.ToString() + "',N'" + txttacgia.Text + "',N'" + cbbnxb.SelectedValue.ToString() + "',N'" + txtmota.Text + "',N'" + txtsl.Text + "')";
 
-            SqlCommand cmd = new SqlCommand(sq, cn);
-            cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Them sp thanh cong ");
+                SqlCommand cmd = new SqlCommand(sq, cn);
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Them sp thanh cong ");
 
 
-            string sql = "SELECT * FROM SACH";
-            SqlDataAdapter da = new SqlDataAdapter(sql, cn);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            dataGridView1.DataSource = ds.Tables[0];
-            }
+                string sql = "SELECT * FROM SACH";
+                SqlDataAdapter da = new SqlDataAdapter(sql, cn);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                dataGridView1.DataSource = ds.Tables[0];
+                }
             catch (Exception ex)
-            {
-                MessageBox.Show(ex + "");
-                //throw;
-            }
+                {
+                    MessageBox.Show(ex + "");
+                    //throw;
+                }
            
+            }
+            
         }
+
+       
     }
     
 }

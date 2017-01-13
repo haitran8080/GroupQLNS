@@ -34,8 +34,13 @@ namespace QLNHASACH
         }
         private void bttadd_Click(object sender, EventArgs e)
         {
-             cn.Open();
-
+            if (txttenloai.Text == "")
+            {
+                MessageBox.Show("Tên Loại Sách không được để trống ! ", "Xác Nhận", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
+            }
+            else
+            { 
+                cn.Open();
             try
             {
                 string sqladd = "insert into LOAISACH(TENLOAI,MACHUNGLOAI) VALUES (N'" + txttenloai.Text + "',N'"+ cbbchungloai.SelectedValue.ToString() +"')";
@@ -43,19 +48,14 @@ namespace QLNHASACH
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Thêm Chủng Loại Thành Công ! ");
-
-              
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex + "");
                 //throw;
             }
-            
-        }
-
-        
+            } 
+        }  
         private DataSet getvalue(string sql)
         {
             try
@@ -63,7 +63,6 @@ namespace QLNHASACH
                 SqlDataAdapter da = new SqlDataAdapter(sql, cn);
                 ds = new DataSet();
                 da.Fill(ds);
-
                 return ds;
             }
             catch (SqlException ex)
@@ -76,11 +75,9 @@ namespace QLNHASACH
                 cn.Close();
             }
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-      
     }
 }

@@ -46,7 +46,6 @@ namespace QLNHASACH
             dataGridView1.Columns[2].HeaderText = "Đơn Giá";
             dataGridView1.Columns[2].Width = 80;
             dataGridView1.Columns[3].HeaderText = "Số Lượng";
-
            
             BANGTAM.Columns.Add("MASACH", typeof(string));
             BANGTAM.Columns.Add("TENSACH", typeof(string));
@@ -78,8 +77,7 @@ namespace QLNHASACH
             {
                 MessageBox.Show(ex + "");
                 //throw;
-            }
-            
+            }      
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -120,30 +118,13 @@ namespace QLNHASACH
             //DataSet ds = new DataSet();
             //da.Fill(ds);
             //dgvtam.DataSource = ds.Tables[0];
-            ////bảng tạm ////
-       
-          
+            ////bảng tạm ////     
            // vi du ak 
-
-
-
-
-            
-           //// MessageBox.Show("Them sp thanh cong ");
-          
+  
+           //// MessageBox.Show("Them sp thanh cong ");  
 
         }
         private void bttok_Click(object sender, EventArgs e)
-        {
-            int sc = dgvtam.Rows.Count;
-            int tongtien=0;
-            for (int i = 0; i < sc - 1; i++) {
-            tongtien += int.Parse(dgvtam.Rows[i].Cells["THANHTIEN"].Value.ToString());
-            }
-            txttong.Text = tongtien.ToString();
-            bttsavedh.Enabled = true;
-        }
-        private void bttsavedh_Click(object sender, EventArgs e)
         {
             if (txttenkh.Text == "" || txtsodt.Text == "")
             {
@@ -151,13 +132,23 @@ namespace QLNHASACH
             }
             else
             {
+            int sc = dgvtam.Rows.Count;
+            int tongtien=0;
+            for (int i = 0; i < sc - 1; i++) {
+            tongtien += int.Parse(dgvtam.Rows[i].Cells["THANHTIEN"].Value.ToString());
+            }
+            txttong.Text = tongtien.ToString();
+            bttsavedh.Enabled = true;
+            }
+        }
+        private void bttsavedh_Click(object sender, EventArgs e)
+        {
                 cn.Open();
                 SqlCommand cmd, cmd1, cmd2;
                 try
                 {
                     string sq = "INSERT INTO DONHANG([HOTEN],[SDT],[NGAYLAPHD],[TONGTIEN]) " +
                     "VALUES(N'" + txttenkh.Text + "',N'" + txtsodt.Text + "','" + dateTimePicker1.Text + "','" + txttong.Text + "') ";
-
                     cmd = new SqlCommand(sq, cn);
                     cmd.CommandType = CommandType.Text;
                     cmd.ExecuteNonQuery();
@@ -166,13 +157,10 @@ namespace QLNHASACH
                     cmd = new SqlCommand(sq1, cn);
                     cmd.CommandType = CommandType.Text;
                     string insertedID = cmd.ExecuteScalar().ToString();
-
-
                     //them vao don hang chi tiet:
                     int sc = dgvtam.Rows.Count;
                     for (int i = 0; i < sc - 1; i++)
                     {
-
                         string MASACH = Convert.ToString(dgvtam.Rows[i].Cells["MASACH"].Value);
                         string TENSACH = Convert.ToString(dgvtam.Rows[i].Cells["TENSACH"].Value);
                         string SL = Convert.ToString(dgvtam.Rows[i].Cells["SL"].Value);
@@ -194,7 +182,7 @@ namespace QLNHASACH
                         cmd2.CommandType = CommandType.Text;
                         cmd2.ExecuteNonQuery();
                     }
-                    MessageBox.Show("Thêm vào đơn hàng chi tiết thành công !");
+                    MessageBox.Show("Thêm vào  thành công đơn hàng có ID :"+insertedID.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -206,32 +194,24 @@ namespace QLNHASACH
                     ds.Rows.Clear();
                     getdata();
                 }
-                catch { }
-            }
+                catch { }         
         }
         private void bthuy_Click(object sender, EventArgs e)
         {
             try
             {
-     
                 BANGTAM.Rows.Clear();
                 dgvtam.DataSource = BANGTAM;
                 txttenkh.Text = "";
                 txttensach.Text = "";
                 txttong.Text = "";
                 txtsodt.Text = "";
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex + "");
                 //throw;
             }
-
-           
-
-        }
-
-     
+        }  
     }
 }
